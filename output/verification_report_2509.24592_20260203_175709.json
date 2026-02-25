@@ -1,0 +1,440 @@
+{
+  "meta": {
+    "pdf_url": "https://arxiv.org/pdf/2509.24592",
+    "citation_format": "ieee",
+    "has_number": true,
+    "generated_at": "2026-02-03T17:57:09.126184"
+  },
+  "summary": {
+    "total": 42,
+    "verified": 25,
+    "unverified": 17,
+    "verification_rate": "59.5%",
+    "arxiv_found": 6,
+    "semantic_scholar_found": 0,
+    "openalex_found": 19,
+    "has_pdf": 12
+  },
+  "details": [
+    {
+      "number": 1,
+      "title": "",
+      "authors": "",
+      "year": "",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 2,
+      "title": "Potential Pitfalls of Process Modeling: Part A",
+      "authors": "M.Rosemann.",
+      "year": "2006",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 3,
+      "title": "Opportunities and Constraints: The Current Struggle with BPMN",
+      "authors": "J.Recker.",
+      "year": "2010",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://eprints.qut.edu.au/20316/1/c20316.pdf",
+      "abstract_preview": null
+    },
+    {
+      "number": 4,
+      "title": "IT-Business Alignment:ASvstematic Literature Review",
+      "authors": "S.O.Nianka; G.Sandula.; R.Colomo-Palacios.",
+      "year": "2020",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 5,
+      "title": "On the Fragmentation of Process Information: Challenges,Solutions, and Outlook",
+      "authors": "H.van der Aa et al.",
+      "year": "2015",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 6,
+      "title": "A Oualitative Analvsis of the State of the Art in Process Extraction from Text",
+      "authors": "P.Bellan.M.Dragoni.; C.Ghidini.",
+      "year": "2020",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 7,
+      "title": "Let Me Tell You a Story - On How to Build Process Models",
+      "authors": "Fernanda Araujo Baiāo; Flavia Maria Santoro; Joāo Carlos de A.R. Gonçalves.",
+      "year": "",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://zenodo.org/record/7001555/files/jucs_article_29893.pdf",
+      "abstract_preview": "Process Modeling has been a very active research topic for the last decades. One of its main issues is the externalization of knowledge and its acquisition for further use, as this remains deeply rela..."
+    },
+    {
+      "number": 8,
+      "title": "Measuring Cognitive Load During Process Model Creation",
+      "authors": "B. Weber et al.",
+      "year": "2015",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 9,
+      "title": "Disentangling Organizational Agility from Flexibility,Adaptability,and Versatility: A Systematic Review",
+      "authors": "E.G. Desalegn et al.",
+      "year": "2024",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 10,
+      "title": "Learning from Quality Issues of BPMN Models from Industry",
+      "authors": "H. Leopold; J.Mendling; O. Günther.",
+      "year": "2016",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 11,
+      "title": "Process Mining:A Research Agenda",
+      "authors": "W. Van Der Aalst; A.Weijters.",
+      "year": "2004",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 12,
+      "title": "Process Model Generation from Natural Language Text",
+      "authors": "F.Friedrich; J. Mendling; F. Puhlmann.",
+      "year": "2011",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://link.springer.com/content/pdf/10.1007%2F978-3-642-21640-4_36.pdf",
+      "abstract_preview": null
+    },
+    {
+      "number": 13,
+      "title": "Generating Natural Language Texts from Business Process Models",
+      "authors": "H. Leopold; J. Mendling; A. Polyvyanyy.",
+      "year": "2012",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 14,
+      "title": "Natural Language Processing with Process Models (NLP4RE Report Paper",
+      "authors": "J. Mendling; H. Leopold; L. H. Thom.",
+      "year": "",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 15,
+      "title": "Large Language Models Can Accomplish Business Process Management Tasks",
+      "authors": "M.Grohs et al.",
+      "year": "2024",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://arxiv.org/pdf/2307.09923v1.pdf",
+      "abstract_preview": "Business Process Management (BPM) aims to improve organizational activities and their outcomes by managing the underlying processes. To achieve this, it is often necessary to consider information from..."
+    },
+    {
+      "number": 16,
+      "title": "Large Process Models: Business Process Management in the Age of Generative AI",
+      "authors": "T. Kampik et al.",
+      "year": "2023",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://arxiv.org/pdf/2309.00900",
+      "abstract_preview": null
+    },
+    {
+      "number": 17,
+      "title": "Advancements and Applicationsof Generative Artificial Intelligence and Large Language Models on Business Management: A Comprehensive Review",
+      "authors": "A.A.Linkon et al.",
+      "year": "2024",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 18,
+      "title": "Conversational Process Modeling: Can Generative AI Empower Domain Experts in Creating and Redesigning Process Models",
+      "authors": "N. Klievtsova et al.",
+      "year": "2023",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://arxiv.org/pdf/2304.11065v2.pdf",
+      "abstract_preview": "AI-driven chatbots such as ChatGPT have caused a tremendous hype lately. For BPM applications, several applications for AI-driven chatbots have been identified to be promising to generate business val..."
+    },
+    {
+      "number": 19,
+      "title": "Evaluating the Ability of LLMs to Solve Semantics-Aware Process Mining Tasks",
+      "authors": "A.Rebmann et al.",
+      "year": "2024",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://arxiv.org/pdf/2407.02310v1.pdf",
+      "abstract_preview": "The process mining community has recently recognized the potential of large language models (LLMs) for tackling various process mining tasks. Initial studies report the capability of LLMs to support p..."
+    },
+    {
+      "number": 20,
+      "title": "Introducing the BPMN-Chatbot for Efficient LLM-Based Process Modeling",
+      "authors": "J.Köpke; A.Safan.",
+      "year": "2024",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 21,
+      "title": "ProMoAI: Process Modeling with Generative AI",
+      "authors": "H.Kouraniet al.",
+      "year": "2024",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": "ProMoAI is a novel tool that leverages Large Language Models (LLMs) to automatically generate process models from textual descriptions, incorporating advanced prompt engineering, error handling, and c..."
+    },
+    {
+      "number": 22,
+      "title": "Leveraging Large Language Models (LLMs)for Process Mining (Technical Report",
+      "authors": "",
+      "year": "2023",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 23,
+      "title": "Process Modeling With Large Language Models",
+      "authors": "H. Kourani et al.",
+      "year": "2024",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": "In the realm of Business Process Management (BPM), process modeling plays a crucial role in translating complex process dynamics into comprehensible visual representations, facilitating the understand..."
+    },
+    {
+      "number": 24,
+      "title": "A Semi-automatic Approach to Identify Business Pro- cess Elements in Natural Language Texts",
+      "authors": "R.C. B. Ferreira; L.H. Thom; M. Fantinato.",
+      "year": "2017",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 25,
+      "title": "A Universal Prompting Strategy for Extracting Process Model Information from Natural Language Text Using Large Language Models",
+      "authors": "J. Neuberger et al.",
+      "year": "2024",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://arxiv.org/pdf/2407.18540v1.pdf",
+      "abstract_preview": "Over the past decade, extensive research efforts have been dedicated to the extraction of information from textual process descriptions. Despite the remarkable progress witnessed in natural language p..."
+    },
+    {
+      "number": 26,
+      "title": "Just Tell Me:Prompt Engineering in Business Process Management",
+      "authors": "K.Busch et al.",
+      "year": "2023",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 27,
+      "title": "Evaluating Large Language Models on Business Process Modeling: Framework, Benchmark, and Self-Improvement Analysis",
+      "authors": "H. Kourani et al.",
+      "year": "2024",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://arxiv.org/pdf/2412.00023v1.pdf",
+      "abstract_preview": "Large Language Models (LLMs) are rapidly transforming various fields, and their potential in Business Process Management (BPM) is substantial. This paper assesses the capabilities of LLMs on business ..."
+    },
+    {
+      "number": 28,
+      "title": "Automaticallv Generating BPMN 2.0 Process Models from Natural Language Process Descriptions: Challenges, Framework, Quality Assessment",
+      "authors": "L.EHörner.M.Moller.; M.Reichert.",
+      "year": "2026",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 29,
+      "title": "Process Extraction from Text:Benchmarking the State of the Art and Pavingthe Way for Future Challenges",
+      "authors": "P.Bellan et al.",
+      "year": "2023",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 30,
+      "title": "Automated Generation of BPMN Processes from Textual Requirements",
+      "authors": "Q. Nivon; G. Salaün.",
+      "year": "2025",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 31,
+      "title": "GPT-4oSystem Card",
+      "authors": "OpenAI et al.",
+      "year": "2024",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 32,
+      "title": "",
+      "authors": "G.Comanici et al.",
+      "year": "2025",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 33,
+      "title": "The Llama 3 Herd ofModels",
+      "authors": "A.Grattafiori et al.",
+      "year": "2024",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 34,
+      "title": "",
+      "authors": "Qwen et al.",
+      "year": "2025",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 35,
+      "title": "DeepSeek-V3 TechnicalReport",
+      "authors": "DeepSeek-AI et al.",
+      "year": "2024",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    },
+    {
+      "number": 36,
+      "title": "A Method for Extracting BPMN Models from Textual Descriptions Using Natural Language Processing",
+      "authors": "J. T. Licardo; N. Tanković; D. Etinger.",
+      "year": "2023",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://doi.org/10.1016/j.procs.2024.06.196",
+      "abstract_preview": null
+    },
+    {
+      "number": 37,
+      "title": "Graph Matching Algorithms for Business Process Model Similarity Search",
+      "authors": "R. Dijkman; M. Dumas; L. García-Bañuelos.",
+      "year": "2009",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "http://math.ut.ee/~dumas/pubs/bpm09.pdf",
+      "abstract_preview": null
+    },
+    {
+      "number": 38,
+      "title": "An Intelligent Graph Edit Distance-Based Approach for Finding Business Process Similarities",
+      "authors": "A.Sohail et al.",
+      "year": "2021",
+      "verified": true,
+      "has_pdf": true,
+      "pdf_url": "https://doi.org/10.32604/cmc.2021.017795",
+      "abstract_preview": ": There are numerous application areas of computing similarity between process models. It includes finding similar models from a repository, controlling redundancy of process models, and finding corre..."
+    },
+    {
+      "number": 39,
+      "title": "An Improved Method of Graph Edit Distance for Business Process Model Similarity Measurement",
+      "authors": "I. Waspada; R.Sarno.",
+      "year": "2020",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": "Graph Edit Distance (GED) is widely used in measuring the similarity of the business process model. The GED method is based on a Process Graph abstraction that represents a business process model in g..."
+    },
+    {
+      "number": 40,
+      "title": "Similarity of Business Process Models—A State-of-the-Art Analysis",
+      "authors": "A.Schoknecht et al.",
+      "year": "2018",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 41,
+      "title": "New Quality Metrics for Evaluating Process Models",
+      "authors": "Z.Huang; A.Kumar.",
+      "year": "2009",
+      "verified": true,
+      "has_pdf": false,
+      "pdf_url": "",
+      "abstract_preview": null
+    },
+    {
+      "number": 42,
+      "title": "TheBusiness Process Model Quality Metrics",
+      "authors": "J.Pavliceket al.",
+      "year": "2017",
+      "verified": false,
+      "has_pdf": false,
+      "pdf_url": null,
+      "abstract_preview": null
+    }
+  ]
+}

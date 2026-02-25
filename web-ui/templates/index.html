@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CiteVerify - 学术引文验证系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .progress-container {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+        
+        .progress-text {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .results {
+            display: none;
+        }
+        
+        .report-section {
+            margin-bottom: 30px;
+        }
+        
+        .report-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-card .number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-card .label {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .stat-card.success .number { color: #28a745; }
+        .stat-card.warning .number { color: #ffc107; }
+        .stat-card.danger .number { color: #dc3545; }
+        .stat-card.info .number { color: #17a2b8; }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+        
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .result-table th,
+        .result-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        
+        .result-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            position: sticky;
+            top: 0;
+        }
+        
+        .result-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        .badge-info { background: #d1ecf1; color: #0c5460; }
+        .badge-secondary { background: #e2e3e5; color: #383d41; }
+        
+        .timing-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .timing-info span {
+            margin-right: 20px;
+        }
+        
+        .error-box {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .collapsible {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .collapsible::after {
+            content: ' ▼';
+            font-size: 12px;
+        }
+        
+        .collapsible.collapsed::after {
+            content: ' ▶';
+        }
+        
+        .collapsible-content {
+            max-height: 800px;
+            overflow-y: auto;
+            transition: max-height 0.3s;
+        }
+        
+        .collapsible-content.collapsed {
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        /* 可点击的截断文本 */
+        .cell-clickable {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .cell-clickable:hover {
+            color: #667eea;
+        }
+        
+        /* 标题截断 */
+        .title-cell {
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* 摘要样式 */
+        .abstract-cell {
+            max-width: 350px;
+            min-width: 200px;
+        }
+        
+        .abstract-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .no-abstract {
+            color: #999;
+            font-style: italic;
+            font-size: 12px;
+        }
+        
+        /* 上下文文本 */
+        .context-cell {
+            max-width: 280px;
+            min-width: 150px;
+        }
+        
+        .context-text {
+            background: #f8f9fa;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* Claim 文本 */
+        .claim-cell {
+            max-width: 220px;
+        }
+        
+        .claim-text {
+            font-style: italic;
+            color: #555;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* 理由文本 */
+        .reason-cell {
+            max-width: 220px;
+        }
+        
+        .reason-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 12px;
+            color: #555;
+        }
+        
+        /* 引用锚点 */
+        .citation-anchor {
+            font-weight: 600;
+            color: #667eea;
+            max-width: 120px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-all;
+        }
+        
+        /* 双击提示 */
+        .dblclick-hint {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        
+        /* 模态框 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-dialog {
+            background: white;
+            border-radius: 16px;
+            max-width: 800px;
+            max-height: 80vh;
+            width: 90%;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .modal-head {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-head h4 {
+            margin: 0;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 0 5px;
+            line-height: 1;
+        }
+        
+        .modal-close-btn:hover {
+            color: #333;
+        }
+        
+        .modal-text {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(80vh - 80px);
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CiteVerify</h1>
+            <p>学术论文引文验证与相关性分析系统</p>
+        </header>
+        
+        <div class="card">
+            <h2>论文分析</h2>
+            <form id="analyzeForm">
+                <div class="form-group">
+                    <label for="pdfUrl">论文 PDF 链接 *</label>
+                    <input type="url" id="pdfUrl" placeholder="https://arxiv.org/pdf/xxxx.xxxxx.pdf" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="citationFormat">引用方式 *</label>
+                        <select id="citationFormat" required>
+                            <option value="numeric">数字型 ([1], [2], ...)</option>
+                            <option value="author_year">作者年份型 (Smith, 2020)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="referenceFormat">参考文献格式 *</label>
+                        <select id="referenceFormat" required>
+                            <option value="apa">APA (American Psychological Association)</option>
+                            <option value="ieee">IEEE</option>
+                            <option value="mla">MLA (Modern Language Association)</option>
+                            <option value="gb_t_7714">GB/T 7714 (中国国标)</option>
+                            <option value="chicago">Chicago</option>
+                            <option value="harvard">Harvard</option>
+                            <option value="vancouver">Vancouver</option>
+                            <option value="other">其他 (使用 LLM 从全文提取)</option>
+                        </select>
+                        <small id="referenceFormatOtherHint" style="display:none; color:#856404; margin-top:4px;">选择「其他」时需配置 LLM 模型与 API Key，系统将整段参考文献原文交给 LLM 提取每条文献的标题、作者、年份；数字型会保留原文序号，作者年份型无序号。</small>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="llmModel">LLM 模型</label>
+                        <input type="text" id="llmModel" value="gpt-4o-mini" placeholder="gpt-4o-mini">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="llmApiKey">LLM API Key</label>
+                        <input type="password" id="llmApiKey" placeholder="sk-xxx...">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="llmBaseUrl">LLM API Base URL (可选)</label>
+                    <input type="url" id="llmBaseUrl" placeholder="https://api.openai.com/v1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="semanticScholarKey">Semantic Scholar API Key (可选)</label>
+                    <input type="password" id="semanticScholarKey" placeholder="可提高搜索成功率">
+                </div>
+                
+                <button type="submit" class="btn" id="submitBtn">开始分析</button>
+            </form>
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progressText">准备中...</div>
+            </div>
+        </div>
+        
+        <div class="card results" id="resultsCard">
+            <h2>分析结果</h2>
+            
+            <div class="timing-info" id="timingInfo"></div>
+            
+            <!-- 真伪性校验报告 -->
+            <div class="report-section" id="verificationSection">
+                <h3 class="collapsible">参考文献真伪性校验报告</h3>
+                <div class="collapsible-content" id="verificationContent">
+                    <div class="stats-grid" id="verificationStats"></div>
+                    <div id="verificationDetails"></div>
+                </div>
+            </div>
+            
+            <!-- 相关性分析报告 -->
+            <div class="report-section" id="relevanceSection">
+                <h3 class="collapsible">引文相关性分析报告</h3>
+                <div class="collapsible-content" id="relevanceContent">
+                    <div class="stats-grid" id="relevanceStats"></div>
+                    <div id="relevanceDetails"></div>
+                </div>
+            </div>
+            
+            <!-- 错误信息 -->
+            <div class="error-box" id="errorBox" style="display: none;"></div>
+        </div>
+    </div>
+    
+    <!-- 模态框 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-dialog">
+            <div class="modal-head">
+                <h4 id="modalTitle">详细内容</h4>
+                <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+            </div>
+            <div class="modal-text" id="modalBody"></div>
+        </div>
+    </div>
+    
+    <script>
+        // ========== 全局数据存储 ==========
+        // 存储所有需要在模态框中显示的文本数据，避免内联事件处理的转义问题
+        const _modalDataStore = {};
+        let _modalDataId = 0;
+        
+        function storeModalData(text) {
+            const id = 'md_' + (++_modalDataId);
+            _modalDataStore[id] = text || '';
+            return id;
+        }
+        
+        // ========== DOM 引用 ==========
+        const form = document.getElementById('analyzeForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const resultsCard = document.getElementById('resultsCard');
+        const referenceFormatSelect = document.getElementById('referenceFormat');
+        const referenceFormatOtherHint = document.getElementById('referenceFormatOtherHint');
+        
+        function toggleOtherFormatHint() {
+            referenceFormatOtherHint.style.display = referenceFormatSelect.value === 'other' ? 'block' : 'none';
+        }
+        referenceFormatSelect.addEventListener('change', toggleOtherFormatHint);
+        toggleOtherFormatHint();
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        
+        let currentTaskId = null;
+        let pollInterval = null;
+        
+        // ========== 模态框 ==========
+        function showModal(title, content) {
+            modalTitle.textContent = title;
+            modalBody.textContent = content;
+            modalOverlay.classList.add('show');
+        }
+        
+        function closeModal() {
+            modalOverlay.classList.remove('show');
+        }
+        
+        document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+        
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+        
+        // 事件委托：处理所有 data-modal 双击事件
+        document.addEventListener('dblclick', function(e) {
+            const el = e.target.closest('[data-modal-id]');
+            if (el) {
+                const dataId = el.getAttribute('data-modal-id');
+                const title = el.getAttribute('data-modal-title') || '详细内容';
+                const content = _modalDataStore[dataId] || '';
+                showModal(title, content);
+            }
+        });
+        
+        // ========== 折叠功能 ==========
+        document.querySelectorAll('.collapsible').forEach(function(el) {
+            el.addEventListener('click', function() {
+                el.classList.toggle('collapsed');
+                el.nextElementSibling.classList.toggle('collapsed');
+            });
+        });
+        
+        // ========== 工具函数 ==========
+        function escapeHtml(text) {
+            if (!text) return '';
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function getJudgmentBadgeClass(judgment) {
+            var map = {
+                'strongly_supports': 'badge-success',
+                'weakly_supports': 'badge-warning',
+                'does_not_support': 'badge-danger',
+                'unclear': 'badge-secondary',
+                'no_abstract': 'badge-info',
+                'skipped': 'badge-secondary',
+                'error': 'badge-danger'
+            };
+            return map[judgment] || 'badge-secondary';
+        }
+        
+        function getJudgmentText(judgment) {
+            var map = {
+                'strongly_supports': '强支持',
+                'weakly_supports': '弱支持',
+                'does_not_support': '不支持',
+                'unclear': '不确定',
+                'no_abstract': '无摘要',
+                'skipped': '已跳过',
+                'error': '错误'
+            };
+            return map[judgment] || judgment;
+        }
+        
+        // ========== 表单提交 ==========
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            var data = {
+                pdf_url: document.getElementById('pdfUrl').value,
+                citation_format: document.getElementById('citationFormat').value,
+                reference_format: document.getElementById('referenceFormat').value,
+                llm_model: document.getElementById('llmModel').value,
+                llm_api_key: document.getElementById('llmApiKey').value,
+                llm_base_url: document.getElementById('llmBaseUrl').value,
+                semantic_scholar_key: document.getElementById('semanticScholarKey').value
+            };
+            
+            submitBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            resultsCard.style.display = 'none';
+            progressFill.style.width = '0%';
+            progressText.textContent = '正在提交任务...';
+            
+            try {
+                var response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                var result = await response.json();
+                
+                if (result.success) {
+                    currentTaskId = result.task_id;
+                    startPolling();
+                } else {
+                    showError(result.error);
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                showError('请求失败: ' + error.message);
+                submitBtn.disabled = false;
+            }
+        });
+        
+        function startPolling() {
+            pollInterval = setInterval(async function() {
+                try {
+                    var response = await fetch('/api/progress/' + currentTaskId);
+                    var data = await response.json();
+                    
+                    if (data.success) {
+                        progressFill.style.width = (data.progress * 100) + '%';
+                        progressText.textContent = data.message;
+                        
+                        if (data.completed) {
+                            clearInterval(pollInterval);
+                            showResults(data.result);
+                            submitBtn.disabled = false;
+                        }
+                    }
+                } catch (error) {
+                    console.error('轮询失败:', error);
+                }
+            }, 1000);
+        }
+        
+        function showError(message) {
+            var errorBox = document.getElementById('errorBox');
+            errorBox.textContent = message;
+            errorBox.style.display = 'block';
+            resultsCard.style.display = 'block';
+            progressContainer.style.display = 'none';
+        }
+        
+        function showResults(result) {
+            progressContainer.style.display = 'none';
+            resultsCard.style.display = 'block';
+            
+            var errorBox = document.getElementById('errorBox');
+            
+            if (!result.success) {
+                errorBox.textContent = result.error || '分析失败';
+                errorBox.style.display = 'block';
+                return;
+            }
+            
+            errorBox.style.display = 'none';
+            
+            // 显示耗时信息
+            var timing = result.timing;
+            document.getElementById('timingInfo').innerHTML =
+                '<strong>处理耗时:</strong> ' +
+                '<span>PDF转换: ' + timing.conversion_time + 's</span>' +
+                '<span>提取: ' + timing.extraction_time + 's</span>' +
+                '<span>校验: ' + timing.verification_time + 's</span>' +
+                '<span>匹配: ' + timing.matching_time + 's</span>' +
+                '<span>分析: ' + timing.analysis_time + 's</span>' +
+                '<span><strong>总计: ' + timing.total_time + 's</strong></span>';
+            
+            // 真伪性校验报告
+            if (result.verification_report) {
+                renderVerificationReport(result.verification_report);
+            }
+            
+            // 相关性分析报告
+            if (result.relevance_report) {
+                renderRelevanceReport(result.relevance_report);
+            }
+        }
+        
+        // ========== 真伪性校验报告渲染 ==========
+        function renderVerificationReport(vr) {
+            // 统计数据
+            document.getElementById('verificationStats').innerHTML =
+                '<div class="stat-card">' +
+                    '<div class="number">' + vr.total_count + '</div>' +
+                    '<div class="label">总参考文献</div>' +
+                '</div>' +
+                '<div class="stat-card success">' +
+                    '<div class="number">' + vr.verified_count + '</div>' +
+                    '<div class="label">可验证</div>' +
+                '</div>' +
+                '<div class="stat-card danger">' +
+                    '<div class="number">' + vr.not_found_count + '</div>' +
+                    '<div class="label">未找到</div>' +
+                '</div>' +
+                '<div class="stat-card info">' +
+                    '<div class="number">' + vr.arxiv_count + '</div>' +
+                    '<div class="label">arXiv</div>' +
+                '</div>' +
+                '<div class="stat-card info">' +
+                    '<div class="number">' + (vr.arxiv_via_id_count || 0) + '</div>' +
+                    '<div class="label">arXiv(ID兜底)</div>' +
+                '</div>' +
+                '<div class="stat-card info">' +
+                    '<div class="number">' + vr.semantic_scholar_count + '</div>' +
+                    '<div class="label">Semantic Scholar</div>' +
+                '</div>' +
+                '<div class="stat-card info">' +
+                    '<div class="number">' + vr.openalex_count + '</div>' +
+                    '<div class="label">OpenAlex</div>' +
+                '</div>' +
+                '<div class="stat-card info">' +
+                    '<div class="number">' + (vr.crossref_count || 0) + '</div>' +
+                    '<div class="label">Crossref</div>' +
+                '</div>';
+            
+            var container = document.getElementById('verificationDetails');
+            // 清空之前的内容
+            container.innerHTML = '';
+            
+            // --- 可验证的参考文献 ---
+            if (vr.verified_refs && vr.verified_refs.length > 0) {
+                var section = document.createElement('div');
+                
+                var heading = document.createElement('h4');
+                heading.style.margin = '20px 0 10px';
+                heading.textContent = '可验证的参考文献 (' + vr.verified_refs.length + ')';
+                section.appendChild(heading);
+                
+                var hint = document.createElement('p');
+                hint.className = 'dblclick-hint';
+                hint.textContent = '提示: 双击文字可查看完整内容';
+                section.appendChild(hint);
+                
+                var tableWrap = document.createElement('div');
+                tableWrap.className = 'table-container';
+                
+                var table = document.createElement('table');
+                table.className = 'result-table';
+                
+                // 表头
+                var thead = document.createElement('thead');
+                thead.innerHTML =
+                    '<tr>' +
+                    '<th style="width:50px">序号</th>' +
+                    '<th style="width:250px">标题</th>' +
+                    '<th style="width:80px">来源</th>' +
+                    '<th style="width:60px">PDF</th>' +
+                    '<th style="min-width:200px">摘要</th>' +
+                    '</tr>';
+                table.appendChild(thead);
+                
+                var tbody = document.createElement('tbody');
+                
+                vr.verified_refs.forEach(function(ref) {
+                    var tr = document.createElement('tr');
+                    
+                    // 序号
+                    var tdNum = document.createElement('td');
+                    tdNum.textContent = ref.number || '-';
+                    tr.appendChild(tdNum);
+                    
+                    // 标题（可双击查看完整内容）
+                    var tdTitle = document.createElement('td');
+                    var titleDiv = document.createElement('div');
+                    titleDiv.className = 'title-cell cell-clickable';
+                    titleDiv.textContent = ref.title || '-';
+                    var titleId = storeModalData(ref.title || '');
+                    titleDiv.setAttribute('data-modal-id', titleId);
+                    titleDiv.setAttribute('data-modal-title', '参考文献标题');
+                    tdTitle.appendChild(titleDiv);
+                    tr.appendChild(tdTitle);
+                    
+                    // 来源
+                    var tdSource = document.createElement('td');
+                    var badge = document.createElement('span');
+                    var sourceText = ref.source || '-';
+                    var sourceBadgeClass = 'badge badge-success';
+                    var sourceDisplayMap = {
+                        'arxiv': 'arXiv',
+                        'arxiv_via_id': 'arXiv(ID)',
+                        'semantic_scholar': 'Semantic Scholar',
+                        'openalex': 'OpenAlex',
+                        'crossref': 'Crossref',
+                        'not_found': '未找到'
+                    };
+                    if (sourceText === 'not_found') sourceBadgeClass = 'badge badge-danger';
+                    else if (sourceText === 'crossref') sourceBadgeClass = 'badge badge-warning';
+                    badge.className = sourceBadgeClass;
+                    badge.textContent = sourceDisplayMap[sourceText] || sourceText;
+                    tdSource.appendChild(badge);
+                    tr.appendChild(tdSource);
+                    
+                    // PDF 链接
+                    var tdPdf = document.createElement('td');
+                    if (ref.pdf_url) {
+                        var a = document.createElement('a');
+                        a.href = ref.pdf_url;
+                        a.target = '_blank';
+                        a.textContent = 'PDF';
+                        tdPdf.appendChild(a);
+                    } else {
+                        tdPdf.textContent = '-';
+                    }
+                    tr.appendChild(tdPdf);
+                    
+                    // 摘要（默认显示2行，双击查看完整内容）
+                    var tdAbstract = document.createElement('td');
+                    tdAbstract.className = 'abstract-cell';
+                    
+                    if (ref.abstract && ref.abstract.trim()) {
+                        var abstractDiv = document.createElement('div');
+                        abstractDiv.className = 'abstract-text cell-clickable';
+                        abstractDiv.textContent = ref.abstract;
+                        var absId = storeModalData(ref.abstract);
+                        abstractDiv.setAttribute('data-modal-id', absId);
+                        abstractDiv.setAttribute('data-modal-title', '摘要 - ' + (ref.title || ''));
+                        tdAbstract.appendChild(abstractDiv);
+                    } else {
+                        var noAbs = document.createElement('span');
+                        noAbs.className = 'no-abstract';
+                        noAbs.textContent = '无摘要';
+                        tdAbstract.appendChild(noAbs);
+                    }
+                    tr.appendChild(tdAbstract);
+                    
+                    tbody.appendChild(tr);
+                });
+                
+                table.appendChild(tbody);
+                tableWrap.appendChild(table);
+                section.appendChild(tableWrap);
+                container.appendChild(section);
+            }
+            
+            // --- 未找到的参考文献 ---
+            if (vr.not_found_refs && vr.not_found_refs.length > 0) {
+                var section2 = document.createElement('div');
+                
+                var heading2 = document.createElement('h4');
+                heading2.style.margin = '20px 0 10px';
+                heading2.textContent = '未找到的参考文献 (' + vr.not_found_refs.length + ')';
+                section2.appendChild(heading2);
+                
+                var tableWrap2 = document.createElement('div');
+                tableWrap2.className = 'table-container';
+                
+                var table2 = document.createElement('table');
+                table2.className = 'result-table';
+                
+                var thead2 = document.createElement('thead');
+                thead2.innerHTML =
+                    '<tr>' +
+                    '<th style="width:50px">序号</th>' +
+                    '<th>标题</th>' +
+                    '</tr>';
+                table2.appendChild(thead2);
+                
+                var tbody2 = document.createElement('tbody');
+                
+                vr.not_found_refs.forEach(function(ref) {
+                    var tr = document.createElement('tr');
+                    
+                    var tdNum = document.createElement('td');
+                    tdNum.textContent = ref.number || '-';
+                    tr.appendChild(tdNum);
+                    
+                    var tdTitle = document.createElement('td');
+                    var titleDiv = document.createElement('div');
+                    titleDiv.className = 'cell-clickable';
+                    titleDiv.style.maxWidth = '500px';
+                    titleDiv.textContent = ref.title || '-';
+                    var titleId = storeModalData(ref.title || '');
+                    titleDiv.setAttribute('data-modal-id', titleId);
+                    titleDiv.setAttribute('data-modal-title', '参考文献标题');
+                    tdTitle.appendChild(titleDiv);
+                    tr.appendChild(tdTitle);
+                    
+                    tbody2.appendChild(tr);
+                });
+                
+                table2.appendChild(tbody2);
+                tableWrap2.appendChild(table2);
+                section2.appendChild(tableWrap2);
+                container.appendChild(section2);
+            }
+        }
+        
+        // ========== 相关性分析报告渲染 ==========
+        function renderRelevanceReport(rr) {
+            // 统计数据
+            document.getElementById('relevanceStats').innerHTML =
+                '<div class="stat-card">' +
+                    '<div class="number">' + rr.total_citations + '</div>' +
+                    '<div class="label">总引用数</div>' +
+                '</div>' +
+                '<div class="stat-card success">' +
+                    '<div class="number">' + rr.matched_count + '</div>' +
+                    '<div class="label">匹配成功</div>' +
+                '</div>' +
+                '<div class="stat-card danger">' +
+                    '<div class="number">' + rr.unmatched_count + '</div>' +
+                    '<div class="label">未匹配</div>' +
+                '</div>' +
+                '<div class="stat-card success">' +
+                    '<div class="number">' + rr.strongly_supports_count + '</div>' +
+                    '<div class="label">强支持</div>' +
+                '</div>' +
+                '<div class="stat-card warning">' +
+                    '<div class="number">' + rr.weakly_supports_count + '</div>' +
+                    '<div class="label">弱支持</div>' +
+                '</div>' +
+                '<div class="stat-card danger">' +
+                    '<div class="number">' + rr.not_supports_count + '</div>' +
+                    '<div class="label">不支持</div>' +
+                '</div>' +
+                '<div class="stat-card">' +
+                    '<div class="number">' + rr.unclear_count + '</div>' +
+                    '<div class="label">不确定/无摘要</div>' +
+                '</div>';
+            
+            var container = document.getElementById('relevanceDetails');
+            container.innerHTML = '';
+            
+            // --- 匹配结果 ---
+            if (rr.matched_results && rr.matched_results.length > 0) {
+                var section = document.createElement('div');
+                
+                var heading = document.createElement('h4');
+                heading.style.margin = '20px 0 10px';
+                heading.textContent = '相关性分析结果 (' + rr.matched_results.length + ')';
+                section.appendChild(heading);
+                
+                var hint = document.createElement('p');
+                hint.className = 'dblclick-hint';
+                hint.textContent = '提示: 双击文字可查看完整内容';
+                section.appendChild(hint);
+                
+                var tableWrap = document.createElement('div');
+                tableWrap.className = 'table-container';
+                
+                var table = document.createElement('table');
+                table.className = 'result-table';
+                
+                var thead = document.createElement('thead');
+                thead.innerHTML =
+                    '<tr>' +
+                    '<th style="width:120px;max-width:120px">引用锚点</th>' +
+                    '<th style="width:200px">参考文献标题</th>' +
+                    '<th style="width:260px">引用上下文</th>' +
+                    '<th style="width:70px">判断</th>' +
+                    '<th style="width:200px">推断主张</th>' +
+                    '<th style="min-width:160px">理由</th>' +
+                    '</tr>';
+                table.appendChild(thead);
+                
+                var tbody = document.createElement('tbody');
+                
+                rr.matched_results.forEach(function(m) {
+                    var tr = document.createElement('tr');
+                    
+                    // 引用锚点（折叠+双击查看）
+                    var tdAnchor = document.createElement('td');
+                    var anchorDiv = document.createElement('div');
+                    anchorDiv.className = 'citation-anchor cell-clickable';
+                    anchorDiv.textContent = m.citation_anchor || '-';
+                    var anchorId = storeModalData(m.citation_anchor || '');
+                    anchorDiv.setAttribute('data-modal-id', anchorId);
+                    anchorDiv.setAttribute('data-modal-title', '引用锚点');
+                    tdAnchor.appendChild(anchorDiv);
+                    tr.appendChild(tdAnchor);
+                    
+                    // 参考文献标题
+                    var tdTitle = document.createElement('td');
+                    var titleDiv = document.createElement('div');
+                    titleDiv.className = 'title-cell cell-clickable';
+                    titleDiv.textContent = m.title || '-';
+                    var titleId = storeModalData(m.title || '');
+                    titleDiv.setAttribute('data-modal-id', titleId);
+                    titleDiv.setAttribute('data-modal-title', '参考文献标题');
+                    tdTitle.appendChild(titleDiv);
+                    tr.appendChild(tdTitle);
+                    
+                    // 引用上下文
+                    var tdContext = document.createElement('td');
+                    tdContext.className = 'context-cell';
+                    var ctxDiv = document.createElement('div');
+                    ctxDiv.className = 'context-text cell-clickable';
+                    ctxDiv.textContent = m.context || '-';
+                    var ctxId = storeModalData(m.context || '');
+                    ctxDiv.setAttribute('data-modal-id', ctxId);
+                    ctxDiv.setAttribute('data-modal-title', '引用上下文');
+                    tdContext.appendChild(ctxDiv);
+                    tr.appendChild(tdContext);
+                    
+                    // 判断
+                    var tdJudge = document.createElement('td');
+                    var judgeBadge = document.createElement('span');
+                    judgeBadge.className = 'badge ' + getJudgmentBadgeClass(m.judgment);
+                    judgeBadge.textContent = getJudgmentText(m.judgment);
+                    tdJudge.appendChild(judgeBadge);
+                    tr.appendChild(tdJudge);
+                    
+                    // 推断主张
+                    var tdClaim = document.createElement('td');
+                    tdClaim.className = 'claim-cell';
+                    var claimDiv = document.createElement('div');
+                    claimDiv.className = 'claim-text cell-clickable';
+                    claimDiv.textContent = m.claim || '-';
+                    var claimId = storeModalData(m.claim || '');
+                    claimDiv.setAttribute('data-modal-id', claimId);
+                    claimDiv.setAttribute('data-modal-title', '推断主张 (Claim)');
+                    tdClaim.appendChild(claimDiv);
+                    tr.appendChild(tdClaim);
+                    
+                    // 理由（含错误信息）
+                    var tdReason = document.createElement('td');
+                    tdReason.className = 'reason-cell';
+                    var reasonText = m.reason || '-';
+                    // 如果分析失败且有错误信息，拼接显示
+                    if (!m.analysis_success && m.error_message) {
+                        reasonText = '[错误] ' + m.error_message;
+                    }
+                    var reasonDiv = document.createElement('div');
+                    reasonDiv.className = 'reason-text cell-clickable';
+                    reasonDiv.textContent = reasonText;
+                    if (!m.analysis_success && m.error_message) {
+                        reasonDiv.style.color = '#dc3545';
+                    }
+                    var reasonId = storeModalData(reasonText);
+                    reasonDiv.setAttribute('data-modal-id', reasonId);
+                    reasonDiv.setAttribute('data-modal-title', '理由');
+                    tdReason.appendChild(reasonDiv);
+                    tr.appendChild(tdReason);
+                    
+                    tbody.appendChild(tr);
+                });
+                
+                table.appendChild(tbody);
+                tableWrap.appendChild(table);
+                section.appendChild(tableWrap);
+                container.appendChild(section);
+            }
+            
+            // --- 未匹配的引用 ---
+            if (rr.unmatched_citations && rr.unmatched_citations.length > 0) {
+                var section2 = document.createElement('div');
+                
+                var heading2 = document.createElement('h4');
+                heading2.style.margin = '20px 0 10px';
+                heading2.textContent = '未匹配的引用 (' + rr.unmatched_citations.length + ')';
+                section2.appendChild(heading2);
+                
+                var tableWrap2 = document.createElement('div');
+                tableWrap2.className = 'table-container';
+                
+                var table2 = document.createElement('table');
+                table2.className = 'result-table';
+                
+                var thead2 = document.createElement('thead');
+                thead2.innerHTML =
+                    '<tr>' +
+                    '<th style="width:120px;max-width:120px">引用锚点</th>' +
+                    '<th style="width:350px">上下文</th>' +
+                    '<th>原因</th>' +
+                    '</tr>';
+                table2.appendChild(thead2);
+                
+                var tbody2 = document.createElement('tbody');
+                
+                rr.unmatched_citations.forEach(function(u) {
+                    var tr = document.createElement('tr');
+                    
+                    var tdAnchor = document.createElement('td');
+                    var anchorDiv2 = document.createElement('div');
+                    anchorDiv2.className = 'citation-anchor cell-clickable';
+                    anchorDiv2.textContent = u.citation_anchor || '-';
+                    var anchorId2 = storeModalData(u.citation_anchor || '');
+                    anchorDiv2.setAttribute('data-modal-id', anchorId2);
+                    anchorDiv2.setAttribute('data-modal-title', '引用锚点');
+                    tdAnchor.appendChild(anchorDiv2);
+                    tr.appendChild(tdAnchor);
+                    
+                    var tdCtx = document.createElement('td');
+                    var ctxDiv = document.createElement('div');
+                    ctxDiv.className = 'context-text cell-clickable';
+                    ctxDiv.textContent = u.context || '-';
+                    var ctxId = storeModalData(u.context || '');
+                    ctxDiv.setAttribute('data-modal-id', ctxId);
+                    ctxDiv.setAttribute('data-modal-title', '上下文');
+                    tdCtx.appendChild(ctxDiv);
+                    tr.appendChild(tdCtx);
+                    
+                    var tdReason = document.createElement('td');
+                    tdReason.textContent = u.reason || '-';
+                    tr.appendChild(tdReason);
+                    
+                    tbody2.appendChild(tr);
+                });
+                
+                table2.appendChild(tbody2);
+                tableWrap2.appendChild(table2);
+                section2.appendChild(tableWrap2);
+                container.appendChild(section2);
+            }
+            
+            // --- 未被引用的参考文献 ---
+            if (rr.unmatched_references && rr.unmatched_references.length > 0) {
+                var section3 = document.createElement('div');
+                
+                var heading3 = document.createElement('h4');
+                heading3.style.margin = '20px 0 10px';
+                heading3.textContent = '未被引用的参考文献 (' + rr.unmatched_references.length + ')';
+                section3.appendChild(heading3);
+                
+                var tableWrap3 = document.createElement('div');
+                tableWrap3.className = 'table-container';
+                
+                var table3 = document.createElement('table');
+                table3.className = 'result-table';
+                
+                var thead3 = document.createElement('thead');
+                thead3.innerHTML =
+                    '<tr>' +
+                    '<th style="width:50px">序号</th>' +
+                    '<th>标题</th>' +
+                    '<th>原因</th>' +
+                    '</tr>';
+                table3.appendChild(thead3);
+                
+                var tbody3 = document.createElement('tbody');
+                
+                rr.unmatched_references.forEach(function(u) {
+                    var tr = document.createElement('tr');
+                    
+                    var tdNum = document.createElement('td');
+                    tdNum.textContent = u.number || '-';
+                    tr.appendChild(tdNum);
+                    
+                    var tdTitle = document.createElement('td');
+                    var titleDiv = document.createElement('div');
+                    titleDiv.className = 'cell-clickable';
+                    titleDiv.style.maxWidth = '400px';
+                    titleDiv.textContent = u.title || '-';
+                    var titleId = storeModalData(u.title || '');
+                    titleDiv.setAttribute('data-modal-id', titleId);
+                    titleDiv.setAttribute('data-modal-title', '参考文献标题');
+                    tdTitle.appendChild(titleDiv);
+                    tr.appendChild(tdTitle);
+                    
+                    var tdReason = document.createElement('td');
+                    tdReason.textContent = u.reason || '-';
+                    tr.appendChild(tdReason);
+                    
+                    tbody3.appendChild(tr);
+                });
+                
+                table3.appendChild(tbody3);
+                tableWrap3.appendChild(table3);
+                section3.appendChild(tableWrap3);
+                container.appendChild(section3);
+            }
+        }
+    </script>
+</body>
+</html>
